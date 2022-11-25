@@ -51,7 +51,7 @@ build cmake_object_order_depends_target_VsCode_cpp: phony || CMakeFiles/VsCode_c
 
 build CMakeFiles/VsCode_cpp.dir/Test.cpp.obj: CXX_COMPILER__VsCode_cpp_Debug H$:/C++/VsCode_cpp/Test.cpp || cmake_object_order_depends_target_VsCode_cpp
   DEP_FILE = CMakeFiles\VsCode_cpp.dir\Test.cpp.obj.d
-  FLAGS = -g -std=gnu++14
+  FLAGS = -g
   OBJECT_DIR = CMakeFiles\VsCode_cpp.dir
   OBJECT_FILE_DIR = CMakeFiles\VsCode_cpp.dir
 

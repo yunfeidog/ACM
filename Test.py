@@ -1,11 +1,6 @@
-import random
-x=random.randint(1,3)
-n=int(input("请你猜一个数字(1-3):"))
-if n==x:
-    print("你赢了")
-else:
-    print("你输了,我想要的是："+x)
-
-
-
-
+T=4
+left=2
+for i in range(1,100):
+    right=left+T*i
+    print(left,'->' ,right)
+    left+=T*i+1

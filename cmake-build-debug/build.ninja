@@ -55,18 +55,6 @@ build CMakeFiles/VsCode_cpp.dir/Test.cpp.obj: CXX_COMPILER__VsCode_cpp_Debug H$:
   OBJECT_DIR = CMakeFiles\VsCode_cpp.dir
   OBJECT_FILE_DIR = CMakeFiles\VsCode_cpp.dir
 
-build CMakeFiles/VsCode_cpp.dir/Acwing-improve/graphtheory/1172祖孙询问.cpp.obj: CXX_COMPILER__VsCode_cpp_Debug H$:/C++/VsCode_cpp/Acwing-improve/graphtheory/1172祖孙询问.cpp || cmake_object_order_depends_target_VsCode_cpp
-  DEP_FILE = CMakeFiles\VsCode_cpp.dir\Acwing-improve\graphtheory\1172祖孙询问.cpp.obj.d
-  FLAGS = -g
-  OBJECT_DIR = CMakeFiles\VsCode_cpp.dir
-  OBJECT_FILE_DIR = CMakeFiles\VsCode_cpp.dir\Acwing-improve\graphtheory
-
-build CMakeFiles/VsCode_cpp.dir/Acwing-improve/graphtheory/1171距离.cpp.obj: CXX_COMPILER__VsCode_cpp_Debug H$:/C++/VsCode_cpp/Acwing-improve/graphtheory/1171距离.cpp || cmake_object_order_depends_target_VsCode_cpp
-  DEP_FILE = CMakeFiles\VsCode_cpp.dir\Acwing-improve\graphtheory\1171距离.cpp.obj.d
-  FLAGS = -g
-  OBJECT_DIR = CMakeFiles\VsCode_cpp.dir
-  OBJECT_FILE_DIR = CMakeFiles\VsCode_cpp.dir\Acwing-improve\graphtheory
-
 
 # =============================================================================
 # Link build statements for EXECUTABLE target VsCode_cpp
@@ -75,7 +63,7 @@ build CMakeFiles/VsCode_cpp.dir/Acwing-improve/graphtheory/1171距离.cpp.obj: C
 #############################################
 # Link the executable VsCode_cpp.exe
 
-build VsCode_cpp.exe: CXX_EXECUTABLE_LINKER__VsCode_cpp_Debug CMakeFiles/VsCode_cpp.dir/Test.cpp.obj CMakeFiles/VsCode_cpp.dir/Acwing-improve/graphtheory/1172祖孙询问.cpp.obj CMakeFiles/VsCode_cpp.dir/Acwing-improve/graphtheory/1171距离.cpp.obj
+build VsCode_cpp.exe: CXX_EXECUTABLE_LINKER__VsCode_cpp_Debug CMakeFiles/VsCode_cpp.dir/Test.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\VsCode_cpp.dir

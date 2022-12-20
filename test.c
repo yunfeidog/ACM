@@ -1,423 +1,247 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "stdio.h"
+#include "string.h"
 
-struct student {
-    char shenfen[10];//身份
-    char name[10];//姓名
-    int id;//编号
-    int telephone;//电话
-    char id_card[18];//身份证
-    int status;//0表示出校
-    char time[10];// 例如 2022/01/01
-} students[10000];
+struct entry {
+    char name[100];
+    char number[100];
+    char email[100];
+    char department[100];
+} list[10010];
 
 int len = 0;
 
-char shenfen[10];
-char name[10];
-int id;
-int telephone;
-char id_card[18];
-int status;
-char time[10];
-
-int cmp1(const void *s1, const void *s2) {
-    struct student a = *(struct student *) s1;
-    struct student b = *(struct student *) s2;
-
-    return strcmp(a.time, b.time) < 0;
-}
-
-
-int cmp2(const void *s1, const void *s2) {
-    struct student a = *(struct student *) s1;
-    struct student b = *(struct student *) s2;
-
-    return strcmp(a.time, b.time) > 0;
-}
-
-
-void luru();
-//学生 张三 7220221 13188885752 110341199702027521 0 2022/10/06
-//学生 李四 7220222 13188885733 110341199702027771 0 2022/10/05
-//
-
-void save();
-
-void showAll(struct student students[]);
-
-void query();
+void print();
 
 void add();
 
+void modify();
+
 void delete();
 
-void update();
+void search();
 
-void count();
-
-void sort();
-
-void showone(struct student s);
 
 int main() {
-    printf("***************欢迎使用校园出入管理系统***************\n");
-    printf("---------------------------------------------------\n");
-    printf("---------------1.录入出入校园人员信息----------------\n");
-    printf("---------------2.保存出入校园人员信息----------------\n");
-    printf("---------------3.浏览出入校园人员信息----------------\n");
-    printf("---------------4.查询出入校园人员信息----------------\n");
-    printf("---------------5.增加出入校园人员信息----------------\n");
-    printf("---------------6.删除出入校园人员信息----------------\n");
-    printf("---------------7.修改出入校园人员信息----------------\n");
-    printf("---------------8.统计出入校园人员信息----------------\n");
-    printf("---------------9.对出入校园人员信息进行排序-----------\n");
-    printf("---------------10.退出-----------------------------\n");
-    printf("**************************************************\n");
-
+    printf("Welcome to the contact system\n");
+    printf("1. Print contact list\n");
+    printf("2. Add a contact\n");
+    printf("3. Modify a contact\n");
+    printf("4. Delete a contact\n");
+    printf("5. Search a contact\n");
+    printf("6. Quit\n");
     while (1) {
-        printf("请选择(1-10)：");
-        int op;
-        scanf("%d", &op);
-        switch (op) {
-            case 1:
-                luru();
-                break;
-            case 2:
-                save();
-                break;
-            case 3:
-                showAll(students);
-                break;
-            case 4:
-                query();
-                break;
-            case 5:
-                add();
-                break;
-            case 6:
-                delete();
-                break;
-            case 7:
-                update();
-                break;
-            case 8:
-                count();
-                break;
-            case 9:
-                sort();
-                break;
-            case 10:
-                printf("退出系统\n");
-                return 0;
-        }
-    }
-}
-
-
-//1.录入
-void luru() {
-    printf("请输入录入人员个数：");
-    int n;
-    scanf("%d", &n);
-    printf("请依次输入身份、姓名、编号、联系方式、身份证号、出/入校、出/入校时间\n");
-    while (n--) {
-        scanf("%s %s %d %d %s %d %s", students[len].shenfen, students[len].name, &students[len].id,
-              &students[len].telephone, students[len].id_card, &students[len].status, students[len].time);
-        len++;
-    }
-    printf("录入数据成功\n");
-}
-
-//2.保存
-void save() {
-    FILE *fp = fopen("information.txt", "w");
-    for (int i = 0; i < len; ++i) {
-        fprintf(fp, "%s  %s  %d  %d  %s  %d  %s",
-                students[i].shenfen,
-                students[i].name,
-                students[i].id,
-                students[i].telephone,
-                students[i].id_card,
-                students[i].status,
-                students[i].time);
-        fprintf(fp, "\n");
-    }
-    fclose(fp);
-
-    printf("保存数据成功!\n");
-}
-
-//3.浏览出入信息
-void showAll(struct student students[]) {
-    printf("身份  姓名    编号    联系方式    身份证号         出/入校    出/入校时间  \n");
-    for (int i = 0; i < len; ++i) {
-        printf("%s  ", students[i].shenfen);
-        printf("%s  ", students[i].name);
-        printf("%d  ", students[i].id);
-        printf("%d  ", students[i].telephone);
-        printf("%s  ", students[i].id_card);
-        printf("%d  ", students[i].status);
-        printf("%s  \n", students[i].time);
-    }
-}
-
-void showone(struct student s) {
-    printf("%s  ", s.shenfen);
-    printf("%s  ", s.name);
-    printf("%d  ", s.id);
-    printf("%d  ", s.telephone);
-    printf("%s  ", s.id_card);
-    printf("%d  ", s.status);
-    printf("%s  \n", s.time);
-}
-
-//4.查询出入
-void query() {
-    printf("1.按人员身份查询\n");
-    printf("2.按姓名查询\n");
-    printf("3.按出/入校查询\n");
-    printf("4.退出\n");
-    printf("请选择(1-4):");
-    int op;
-    scanf("%d", &op);
-    switch (op) {
-        case 1:
-            printf("请输入查询身份：");
-            scanf("%s", shenfen);
-            for (int i = 0; i < len; i++) {
-                if (strcmp(students[i].shenfen, shenfen) == 0) {
-                    showone(students[i]);
-                }
-            }
+        printf("Please enter your choice(1-6): ");
+        int choice;
+        scanf("%d", &choice);
+        if (choice == 1) {
+            print();
+        } else if (choice == 2) {
+            add();
+        } else if (choice == 3) {
+            modify();
+        } else if (choice == 4) {
+            delete();
+        } else if (choice == 5) {
+            search();
+        } else if (choice == 6) {
+            printf("Quit\n");
             break;
-        case 2:
-            printf("请输入查询姓名：");
-            scanf("%s", name);
-            for (int i = 0; i < len; i++) {
-                if (strcmp(students[i].name, name) == 0) {
-                    showone(students[i]);
-                    break;
-                }
-            }
-            break;
-        case 3:
-            printf("请输入查询出/入校：");
-            scanf("%d", &status);
-            for (int i = 0; i < len; i++) {
-                if (students[i].status == status) {
-                    showone(students[i]);
-                }
-            }
-            break;
-        case 4:
-            printf("退出查询\n");
-            break;
-    }
-}
-
-//5.增加人员
-void add() {
-    printf("请依次输入身份、姓名、编号、联系方式、身份证号、出/入校、出/入校时间\n");
-    scanf("%s %s %d %d %s %d %s", students[len].shenfen, students[len].name, &students[len].id,
-          &students[len].telephone, students[len].id_card, &students[len].status, students[len].time);
-    len++;
-    printf("添加成功\n");
-    save();
-}
-
-//6.删除
-void delete() {
-    printf("输入姓名、身份证号、出/入校、出/入校时间：\n");
-    scanf("%s %s %d %s", name, id_card, &status, time);
-//    printf("%s",name);
-    for (int i = 0; i < len; ++i) {
-//        printf("%s\n",students[i].name);
-        if (strcmp(students[i].name, name) == 0) {
-            showone(students[i]);
-            printf("是否删除该数据y/n?:");
-            getchar();
-            char op;
-            scanf("%c", &op);
-            if (op == 'y' || op == 'Y') {
-                for (int j = i + 1; j < len; j++) {
-                    students[j - 1] = students[j];
-                }
-                len--;
-                printf("删除成功！");
-            } else {
-                printf("取消删除！");
-            }
-            break;
-        }
-    }
-    save();
-}
-
-//7.修改信息
-void update() {
-    printf("输入姓名、身份证号、出/入校、出/入校时间：\n");
-    scanf("%s %s %d %s", name, id_card, &status, time);
-    int cur = 0;
-    for (int i = 0; i < len; i++) {
-        if (strcmp(students[i].name, name) == 0) {
-            cur = i;
-            break;
-        }
-    }
-    showone(students[cur]);
-    printf("是否修改该数据y/n?:");
-    getchar();
-    char op;
-    scanf("%c", &op);
-    if (op == 'y' || op == 'Y') {
-        printf("修改哪项数据(0-6):");
-        int n;
-        scanf("%d", &n);
-        printf("输入修改信息：");
-        if (n == 1) {
-            scanf("%s", students[cur].shenfen);
-        } else if (n == 2) {
-            scanf("%s", students[cur].name);
-        } else if (n == 3) {
-            scanf("%d", &students[cur].id);
-        } else if (n == 4) {
-            scanf("%d", &students[cur].telephone);
-        } else if (n == 5) {
-            scanf("%s", students[cur].id_card);
-        } else if (n == 6) {
-            scanf("%d", &students[cur].status);
         } else {
-            scanf("%s", students[cur].time);
+            printf("Unknown option!\n");
         }
-        printf("修改成功！");
-    } else {
-        printf("取消修改！");
     }
-    save();
+    return 0;
 }
 
-//8.统计出入信息
-void count() {
-    printf("A.统计当天出校人员总数\n");
-    printf("B.统计当天入校人员总数\n");
-    printf("C.统计所有时间段出校人员总数\n");
-    printf("D.统计所有时间段入校人员总数\n");
-    printf("E.退出\n");
-    printf("请选择(A-E):");
-    getchar();
-    char op;
-    scanf("%c", &op);
-    if (op == 'A') {
-        int cnt = 0;
-        int cnt1 = 0;//学生
-        int cnt2 = 0;//教职工
-        int cnt3 = 0;//其他
-        char time1[10];
-        printf("请输入当天日期：");
-        scanf("%s", time1);
-        for (int i = 0; i < len; ++i) {
-            if (strcmp(students[i].time, time1) == 0 && students[i].status == 0) {
-                cnt++;
-                if (strcmp(students[i].shenfen, "学生") == 0) cnt1++;
-                else if (strcmp(students[i].shenfen, "教职工") == 0) cnt2++;
-                else cnt3++;
-            }
-        }
-        printf("当天出校总人数为：%d人,学生%d人,教职工%d人,其他%d人\n", cnt, cnt1, cnt2, cnt3);
-        for (int i = 0; i < len; ++i) {
-            if (strcmp(students[i].time, time1) == 0 && students[i].status == 0) {
-                showone(students[i]);
-            }
-        }
-    } else if (op == 'B') {
-        int cnt = 0;
-        int cnt1 = 0;//学生
-        int cnt2 = 0;//教职工
-        int cnt3 = 0;//其他
-        char time1[10];
-        printf("请输入当天日期：");
-        scanf("%s", time1);
-        for (int i = 0; i < len; ++i) {
-            if (strcmp(students[i].time, time1) == 0 && students[i].status == 1) {
-                cnt++;
-                if (strcmp(students[i].shenfen, "学生") == 0) cnt1++;
-                else if (strcmp(students[i].shenfen, "教职工") == 0) cnt2++;
-                else cnt3++;
-            }
-        }
-        printf("当天入校总人数为：%d人,学生%d人,教职工%d人,其他%d人\n", cnt, cnt1, cnt2, cnt3);
-        for (int i = 0; i < len; ++i) {
-            if (strcmp(students[i].time, time1) == 0 && students[i].status == 1) {
-                showone(students[i]);
-            }
-        }
-    } else if (op == 'C') {
-        int cnt = 0;
-        int cnt1 = 0;//学生
-        int cnt2 = 0;//教职工
-        int cnt3 = 0;//其他
-        for (int i = 0; i < len; ++i) {
-            if (students[i].status == 1) {
-                cnt++;
-                if (strcmp(students[i].shenfen, "学生") == 0) cnt1++;
-                else if (strcmp(students[i].shenfen, "教职工") == 0) cnt2++;
-                else cnt3++;
-            }
-        }
-        printf("当天入校总人数为：%d人,学生%d人,教职工%d人,其他%d人\n", cnt, cnt1, cnt2, cnt3);
-        for (int i = 0; i < len; ++i) {
-            if (students[i].status == 1) {
-                showone(students[i]);
-            }
-        }
-    } else if (op == 'D') {
-        int cnt = 0;
-        int cnt1 = 0;//学生
-        int cnt2 = 0;//教职工
-        int cnt3 = 0;//其他
-        for (int i = 0; i < len; ++i) {
-            if (students[i].status == 0) {
-                cnt++;
-                if (strcmp(students[i].shenfen, "学生") == 0) cnt1++;
-                else if (strcmp(students[i].shenfen, "教职工") == 0) cnt2++;
-                else cnt3++;
-            }
-        }
-        printf("当天出校总人数为：%d人,学生%d人,教职工%d人,其他%d人\n", cnt, cnt1, cnt2, cnt3);
-        for (int i = 0; i < len; ++i) {
-            if (students[i].status == 0) {
-                showone(students[i]);
-            }
-        }
-    } else if (op == 'E') {
-        printf("退出\n");
-    }
-}
-
-//9.排序
-void sort() {
-    printf("A.对出校人员按出校时间进行降序排序\n");
-    printf("B.对入校人员按入校时间进行升序排序\n");
-    printf("请选择(A-B):");
-    getchar();
-    char op;
-    scanf("%c", &op);
-    if (op == 'A') {
-        qsort(students, len, sizeof students[0], cmp1);
-        for (int i = 0; i < len; ++i) {
-            if (students[i].status == 1) continue;
-            showone(students[i]);
-        }
-    } else if (op == 'C') {
-        printf("退出");
+void print() {
+    //You should first print the phone number, then the email id,
+    // then the label, then the name, then the space, and then the department name in parentheses.
+    if (len == 0) {
         return;
-    } else {
-        qsort(students, len, sizeof students[0], cmp2);
-        for (int i = 0; i < len; ++i) {
-            if (students[i].status == 0) continue;
-            showone(students[i]);
+    }
+    for (int i = 0; i < len; i++) {
+        printf("the phone number is %s  ", list[i].number);
+        printf("the email is %s  ", list[i].email);
+        printf("the name is %s  ", list[i].name);
+        printf("the department is %s\n", list[i].department);
+    }
+}
+
+void add() {
+    printf("Please enter the name: \n");
+    scanf("%s", list[len].name);
+    printf("Please enter the phone number: \n");
+    scanf("%s", list[len].number);
+    printf("Please enter the email: \n");
+    scanf("%s", list[len].email);
+
+    printf("Please enter the department: \n");
+    scanf("%[^\n]", list[len].department);
+
+//    len++;
+    //Determine whether the phone number already exists
+    for (int i = 0; i < len - 1; i++) {
+        if (strcmp(list[i].number, list[len - 1].number) == 0) {
+            printf("Entry already exists, ignoring duplicate entry\n");
+            len--;
+            return;
         }
+    }
+    //电话为空
+    if (strcmp(list[len - 1].number, "") == 0) {
+        printf("Phone number cannot be empty, ignoring entry\n");
+        len--;
+        return;
+    }
+    //一个有效的电话号码可能包含“+”、“-”、“（”和“）”的数字和非数字字符。一个电话号码中至少应该有一个数字。
+    int flag = 0;
+    for (int i = 0; i < strlen(list[len - 1].number); i++) {
+        if (list[len - 1].number[i] >= '0' && list[len - 1].number[i] <= '9') {
+            flag = 1;
+            break;
+        }
+    }
+    if (flag == 0) {
+        printf("Invalid phone number");
+        len--;
+        return;
+    }
+    //有效的电子邮件地址由电子邮件前缀和电子邮件域组成，两者均为可接受的格式。
+    //判断电子邮件是否有效
+    int flag1 = 0;
+    int flag2 = 0;
+    for (int i = 0; i < strlen(list[len - 1].email); i++) {
+        if (list[len - 1].email[i] == '@') {
+            flag1 = 1;
+            break;
+        }
+    }
+    for (int i = 0; i < strlen(list[len - 1].email); i++) {
+        if (list[len - 1].email[i] == '.') {
+            flag2 = 1;
+            break;
+        }
+    }
+    if (flag1 == 0 || flag2 == 0) {
+        printf("Invalid email id\n");
+        len--;
+        len--;
+        return;
+    }
+}
+
+void modify() {
+    printf("Please enter the phone number: ");
+    char number[100];
+    scanf("%s", number);
+    int flag = 0;
+    for (int i = 0; i < len; i++) {
+        if (strcmp(list[i].number, number) == 0) {
+            flag = 1;
+//For each field, if the user presses the return key without entering any other characters, the program should retain the existing value of that field.
+            printf("Please enter the new name[return to keep name]: ");
+            char name[100];
+            scanf("%s", name);
+            if (strcmp(name, "") != 0) {
+                strcpy(list[i].name, name);
+            }
+            printf("Please enter the new phone number[return to keep number]: ");
+            char number[100];
+            scanf("%s", number);
+            if (strcmp(number, "") != 0) {
+                //Determine whether the phone number is valid
+                int flag1 = 0;
+                for (int j = 0; j < strlen(number); j++) {
+                    if (number[j] >= '0' && number[j] <= '9') {
+                        flag1 = 1;
+                        break;
+                    }
+                }
+                if (flag1 == 0) {
+                    printf("Invalid phone number\n");
+                    printf("Phone number must contain at least one digit, ignoring entry\n");
+                    return;
+                }
+                strcpy(list[i].number, number);
+            }
+            printf("Please enter the new email[return to keep email]: ");
+            char email[100];
+            scanf("%s", email);
+            if (strcmp(email, "") != 0) {
+                //Determine whether the email is valid
+                int flag1 = 0;
+                int flag2 = 0;
+                for (int j = 0; j < strlen(email); j++) {
+                    if (email[j] == '@') {
+                        flag1 = 1;
+                        break;
+                    }
+                }
+                for (int j = 0; j < strlen(email); j++) {
+                    if (email[j] == '.') {
+                        flag2 = 1;
+                        break;
+                    }
+                }
+                if (flag1 == 0 || flag2 == 0) {
+                    printf("Invalid email id\n");
+                    return;
+                }
+                strcpy(list[i].email, email);
+            }
+            printf("Please enter the new department[return to keep department]: ");
+            char department[100];
+            scanf("%s", department);
+            if (strcmp(department, "") != 0) {
+                strcpy(list[i].department, department);
+            }
+        }
+    }
+    if (flag == 0) {
+        printf("Entry not found\n");
+    }
+}
+
+void delete() {
+    printf("Please enter the phone number[return to cancel]: ");
+    char number[100];
+    scanf("%s", number);
+    if (strcmp(number, "") == 0) {
+        return;
+    }
+    int flag = 0;
+    for (int i = 0; i < len; i++) {
+        if (strcmp(list[i].number, number) == 0) {
+            flag = 1;
+            for (int j = i; j < len - 1; j++) {
+                list[j] = list[j + 1];
+            }
+            len--;
+        }
+    }
+    if (flag == 0) {
+        printf("Entry not found\n");
+    }
+}
+
+void search() {
+    printf("Please enter the phone number[return to cancel]: ");
+    char number[100];
+    scanf("%s", number);
+    if (strcmp(number, "") == 0) {
+        return;
+    }
+    int flag = 0;
+    for (int i = 0; i < len; i++) {
+        if (strcmp(list[i].number, number) == 0) {
+            flag = 1;
+            printf("Name: %s  ", list[i].name);
+            printf("Phone number: %s  ", list[i].number);
+            printf("Email: %s  ", list[i].email);
+            printf("Department: %s  ", list[i].department);
+        }
+    }
+    if (flag == 0) {
+        printf("Entry not found\n");
     }
 }

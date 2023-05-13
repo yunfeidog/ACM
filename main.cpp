@@ -6,22 +6,13 @@ using namespace std;
 
 signed main() {
 #ifndef ONLINE_JUDGE
-    freopen("test.in", "r", stdin);
-    freopen("test.out", "w", stdout);
+    freopen("../test.in", "r", stdin);
+    freopen("../test.out", "w", stdout);
 #endif
-    int n, m;
-    cin >> m >> n;
-    vector<int> a(n + 1);
-    for (int i = 1; i <= n; i++) cin >> a[i];
-
-    vector<int> f(m + 1);
-
-    for (int i = 1; i <= n; i++) {
-        for (int j = m; j >= a[i]; j--) {
-            f[j] = max(f[j], f[j - a[i]] + a[i]);
-        }
-    }
-    cout << m - f[m] << endl;
-
+    int L0, L1, L2, T, l0, l1, l2;
+    cin >> L0 >> L1 >> L2 >> T >> l0 >> l1 >> l2;
+    printf("Diff = %d, %d, %d\n", L0 - l0, L1 - l1, L2 - l2);
+    int res = abs(L0 - l0) + abs(L1 - l1) + abs(L2 - l2);
+    cout << (res <= T ? "Yes" : "No") << endl;
     return 0;
 }

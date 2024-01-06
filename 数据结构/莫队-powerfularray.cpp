@@ -1,3 +1,6 @@
+/**
+* https://www.luogu.com.cn/problem/CF86D
+*/
 #include <bits/stdc++.h>
 
 #define int long long
@@ -9,7 +12,7 @@
 using namespace std;
 
 
-const int N = 5e4 + 10;
+const int N = 1e6 + 10;
 int block, sum;
 
 struct query {
@@ -28,13 +31,17 @@ int cnt[N];
 
 
 void add(int pos) {
-    sum += cnt[c[pos]];
-    cnt[c[pos]]++;
+    int x = c[pos];
+    sum -= x * cnt[x] * cnt[x];
+    cnt[x]++;
+    sum += x * cnt[x] * cnt[x];
 }
 
 void del(int pos) {
-    cnt[c[pos]]--;
-    sum -= cnt[c[pos]];
+    int x = c[pos];
+    sum -= x * cnt[x] * cnt[x];
+    cnt[x]--;
+    sum += x * cnt[x] * cnt[x];
 }
 
 void solve() {
@@ -55,8 +62,10 @@ void solve() {
         while (r > R) del(r--);
         ans[id] = sum;
     }
+    for (int i = 0; i < q; ++i) {
+        cout << ans[i] << endl;
+    }
 }
-
 
 
 signed main() {

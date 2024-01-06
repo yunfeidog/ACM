@@ -1,3 +1,6 @@
+/**
+* https://www.luogu.com.cn/problem/P2709
+*/
 #include <bits/stdc++.h>
 
 #define int long long
@@ -28,18 +31,22 @@ int cnt[N];
 
 
 void add(int pos) {
-    sum += cnt[c[pos]];
-    cnt[c[pos]]++;
+    int t = c[pos];
+    sum -= cnt[t] * cnt[t];
+    cnt[t]++;
+    sum += cnt[t] * cnt[t];
 }
 
 void del(int pos) {
-    cnt[c[pos]]--;
-    sum -= cnt[c[pos]];
+    int t = c[pos];
+    sum -= cnt[t] * cnt[t];
+    cnt[t]--;
+    sum += cnt[t] * cnt[t];
 }
 
 void solve() {
-    int n, q;
-    cin >> n >> q;
+    int n, q, k;
+    cin >> n >> q >> k;
     block = sqrt(n);
     for (int i = 1; i <= n; i++) cin >> c[i];
     for (int i = 0, l, r; i < q; i++) {
@@ -55,8 +62,10 @@ void solve() {
         while (r > R) del(r--);
         ans[id] = sum;
     }
+    for (int i = 0; i < q; ++i) {
+        cout << ans[i] << endl;
+    }
 }
-
 
 
 signed main() {

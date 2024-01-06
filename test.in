@@ -1,7 +1,2 @@
-6
-ADD 2
-ADD 2
-ADD 3
-QUE
-DEL 2
-QUE
+10 2
+2 3

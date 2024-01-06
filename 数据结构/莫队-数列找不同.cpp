@@ -1,15 +1,18 @@
+/**
+* https://www.luogu.com.cn/problem/P3901
+*/
 #include <bits/stdc++.h>
 
 #define int long long
-#define yes cout << "YES" << endl;
-#define no cout << "NO" << endl;
+#define yes cout << "Yes" << endl;
+#define no cout << "No" << endl;
 #define IOS cin.tie(0), cout.tie(0), ios::sync_with_stdio(false);
 #define cxk 1
 #define debug(s, x) if (cxk) cout << "#debug:(" << s << ")=" << x << endl;
 using namespace std;
 
 
-const int N = 5e4 + 10;
+const int N = 1e5 + 10;
 int block, sum;
 
 struct query {
@@ -26,15 +29,14 @@ struct query {
 int c[N], ans[N];
 int cnt[N];
 
-
 void add(int pos) {
-    sum += cnt[c[pos]];
+    if (!cnt[c[pos]])sum++;
     cnt[c[pos]]++;
 }
 
 void del(int pos) {
     cnt[c[pos]]--;
-    sum -= cnt[c[pos]];
+    if (!cnt[c[pos]]) sum--;
 }
 
 void solve() {
@@ -53,10 +55,11 @@ void solve() {
         while (l < L) del(l++);
         while (r < R) add(++r);
         while (r > R) del(r--);
-        ans[id] = sum;
+        ans[id] = sum == (r - l + 1);
     }
+    for (int i = 0; i < q; i++)
+        if (ans[i]) yes else no
 }
-
 
 
 signed main() {

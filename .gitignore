@@ -1,0 +1,6 @@
+cmake-build-debug
+
+
+# 排除编译后的文件 以及 cmake-build-debug 文件夹
+# 排除没有后缀的文件
+.idea

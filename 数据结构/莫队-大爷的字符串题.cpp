@@ -1,3 +1,6 @@
+/**
+* https://www.luogu.com.cn/problem/P3709
+*/
 #include <bits/stdc++.h>
 
 #define int long long
@@ -9,7 +12,7 @@
 using namespace std;
 
 
-const int N = 5e4 + 10;
+const int N = 2e5 + 10;
 int block, sum;
 
 struct query {
@@ -24,17 +27,24 @@ struct query {
 } a[N];
 
 int c[N], ans[N];
-int cnt[N];
+int cnt[N];//i出现的次数
+int cnt2[N];//出现次数为i的数有多少个
 
 
 void add(int pos) {
-    sum += cnt[c[pos]];
-    cnt[c[pos]]++;
+    int x = c[pos];
+    cnt2[cnt[x]]--;
+    cnt[x]++;
+    cnt2[cnt[x]]++;
+    sum = max(sum, cnt[x]);
 }
 
 void del(int pos) {
-    cnt[c[pos]]--;
-    sum -= cnt[c[pos]];
+    int x = c[pos];
+    cnt2[cnt[x]]--;
+    if (cnt2[cnt[x]] == 0 && cnt[x] == sum) sum--;
+    cnt[x]--;
+    cnt2[cnt[x]]++;
 }
 
 void solve() {
@@ -47,16 +57,26 @@ void solve() {
         a[i] = {l, r, i};
     }
     sort(a, a + q);
+
+    int num = 1;
+    map<int, int> mp;
+    for (int i = 1; i <= n; i++) {
+        if (mp[c[i]] != 0) c[i] = mp[c[i]];
+        else mp[c[i]] = num++, c[i] = mp[c[i]];
+    }
+
     for (int i = 0, l = 1, r = 0; i < q; i++) {
         auto [L, R, id] = a[i];
         while (l > L) add(--l);
         while (l < L) del(l++);
         while (r < R) add(++r);
         while (r > R) del(r--);
-        ans[id] = sum;
+        ans[id] = -sum;
+    }
+    for (int i = 0; i < q; ++i) {
+        cout << ans[i] << endl;
     }
 }
-
 
 
 signed main() {
